@@ -18,7 +18,7 @@ body{
   p{
     font-size:medium;
     color: azure;
-    text-shadow: 1px 1px 10px white;
+    text-shadow: 0.5px 0.5px 10px white;
     line-height: 0.5;
     letter-spacing: 1.5px;
   

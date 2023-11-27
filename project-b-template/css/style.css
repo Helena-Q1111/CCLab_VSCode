@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'Pixel';
+  src: url('project-b-template/Pixelify_Sans/static/PixelifySans-VariableFont_wght.ttf') format('truetype'); /* TTF 格式的字体文件路径 */
+}
+html,
+body {
+  height: 100%;
+  font-family: 'Pixel';
+  text-align: center;
+}
+
+body,
+p {
+  margin: 1;
+  padding: 1;
+  font-size: x-large;
+}
+.image{
+  position: fixed;
+  top:0;
+  left:0;
+}
+p{
+  font-size:50px;
+}
+.red{
+  font-size: 30px;
+  color:rgb(235, 77, 77)
+}
+.yellow{
+  font-size: 20px;
+  color:rgb(255, 243, 80)
+}
+.green{
+  font-size: 20px;
+  color:rgb(102,255,153)
+}
+.blue{
+  font-size:30px;
+  color:rgb(0,204,255)
+}
+#canvasContainer {
+  display: block;
+}
