@@ -9,11 +9,14 @@ let F2 = 698.4564801; //I calculated the frequency of each note
 let osc;
 let oscType;
 let isPlaying = false;
+let audioPlayed = false;
 let colors = [];
 let notes = [];
 let tracks = [37.5, 112.5, 187.5, 262.5, 337.5, 412.5, 487.5, 562.5];
 let mySound;
 let character;
+let arms;
+let legs;
 let speed=0;
 let ypos=0;
 let texts = [
@@ -29,12 +32,14 @@ let currentTextIndex = 0;
 let displayTime = 4300;
 let fadeDuration = 500;
 let nextTime = 0;
-
+let player;
 let interactedOnce = false;
 
 function preload() {
   mySound = loadSound('Encounter.mp3');
-  character=loadImage('character.png')
+  character=loadImage('character.png');
+  arms=loadImage('arms.png');
+  legs=loadImage('legs.png');
 }
 
 
@@ -194,6 +199,7 @@ function setup() {
 
     notes.push(new Note(startX, startY, length));
   }
+  player=new CLoudie(-20,ypos-100);
 }
 function draw() {
   background(255);
@@ -373,7 +379,29 @@ function draw() {
   } else {
     ypos -= speed;
   }
-  image(character,-20,ypos-100);
+  
+  // let armsAngle=-PI-(height-ypos)*PI/600;
+  let armsAngle = map(ypos, 0, height, PI, PI/2);
+  let legsAngle= map(ypos,height,0,0,PI/4);
+  
+  push();
+  translate(70,ypos+70);
+  rotate(legsAngle+PI/8);
+  image(legs,-5,0);
+  rotate(2*PI-2*legsAngle);
+  image(legs,5,0);
+  pop();
+  
+  push();
+  translate(70,ypos);
+  rotate(armsAngle);
+  image(arms,0,-10);
+  rotate(2*PI-armsAngle);
+  image(character,-90,-100);
+  rotate(PI-armsAngle);
+  image(arms,10,-10);
+  pop();
+ 
 }
 function playSound() {
   if (!isPlaying) {
@@ -434,9 +462,14 @@ class Note {
   }
 }
 
+class CLoudie{
 
+}
 function mousePressed(){
-  mySound.play();
+  if (!audioPlayed) {
+    mySound.play();
+    audioPlayed = true;
+  }
   interactedOnce = true;
 
 }
