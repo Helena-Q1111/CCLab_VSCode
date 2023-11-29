@@ -17,6 +17,7 @@ let mySound;
 let character;
 let arms;
 let legs;
+let frontpage;
 let speed=0;
 let ypos=0;
 let texts = [
@@ -32,7 +33,6 @@ let currentTextIndex = 0;
 let displayTime = 4300;
 let fadeDuration = 500;
 let nextTime = 0;
-let player;
 let interactedOnce = false;
 let pixelFont;
 
@@ -41,7 +41,8 @@ function preload() {
   character=loadImage('character.png');
   arms=loadImage('arms.png');
   legs=loadImage('legs.png');
-  pixelFont=loadFont('css/PixelifySans-VariableFont_wght.ttf')
+  frontpage=loadImage('frontpage.png');
+  pixelFont=loadFont('css/PixelifySans-VariableFont_wght.ttf');
 }
 
 
@@ -202,14 +203,15 @@ function setup() {
 
     notes.push(new Note(startX, startY, length));
   }
-  player=new CLoudie(-20,ypos-100);
 }
 function draw() {
   background(255);
 
 
   if(interactedOnce == false){
-    text("press anywhere to start", 300, 300);
+    background(240);
+    image(frontpage,320,200);
+    text("press anywhere to start", 400, 300);
     return;
   }
   
@@ -224,7 +226,6 @@ function draw() {
     notes[i].display();
   }
 
-  // stroke(0.5);
   for (let j = 0; j < 8; j++) {
     fill(colors[j]);
     quad(
@@ -465,9 +466,6 @@ class Note {
   }
 }
 
-class CLoudie{
-
-}
 function mousePressed(){
   if (!audioPlayed) {
     mySound.play();
