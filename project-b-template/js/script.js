@@ -34,12 +34,14 @@ let fadeDuration = 500;
 let nextTime = 0;
 let player;
 let interactedOnce = false;
+let pixelFont;
 
 function preload() {
   mySound = loadSound('Encounter.mp3');
   character=loadImage('character.png');
   arms=loadImage('arms.png');
   legs=loadImage('legs.png');
+  pixelFont=loadFont('css/PixelifySans-VariableFont_wght.ttf')
 }
 
 
@@ -47,6 +49,7 @@ function preload() {
 function setup() {
   createCanvas(800, 600);
   textSize(32);
+  textFont(pixelFont);
   textAlign(CENTER, CENTER);
   nextTime = millis() + displayTime;
   osc = new p5.Oscillator();
@@ -383,7 +386,7 @@ function draw() {
   // let armsAngle=-PI-(height-ypos)*PI/600;
   let armsAngle = map(ypos, 0, height, PI, PI/2);
   let legsAngle= map(ypos,height,0,0,PI/4);
-  
+
   push();
   translate(70,ypos+70);
   rotate(legsAngle+PI/8);
