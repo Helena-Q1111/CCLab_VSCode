@@ -21,7 +21,7 @@ let frontpage;
 let speed=0;
 let ypos=0;
 let texts = [
-  "Welcome to the music world!","Have you played any instruments before?",
+  "Welcome to the music journey!","Have you played any instruments before?",
   "Here is a synthesizer in front of you",
   "You can play with it by \n pressing your mouse and dragging it",
   "Like this!",
@@ -29,12 +29,29 @@ let texts = [
   "Like this!",
   "Have fun!",
 ];
+let texts2=[
+  "",
+  "Look! A character has joined your journey",
+  "Does it remind you of some pixel games \n of your childhood?",
+  "Let's play a game together!",
+  "Please lead her by reaching \n the position of the note",
+  "when the note coincides \n with the colorful diamonds!",
+  "Like this!",
+  "Ready to start!",
+  "3","2","1","go!"
+]
 let currentTextIndex = 0;
+let currentTextIndex2=0;
 let displayTime = 4300;
+let displayTime2=3500;
 let fadeDuration = 500;
 let nextTime = 0;
+let nextTime2=0;
 let interactedOnce = false;
 let pixelFont;
+let backgroundAlpha=255;
+let characterAlpha=0;
+let exampleX=800;
 
 function preload() {
   mySound = loadSound('Encounter.mp3');
@@ -215,16 +232,12 @@ function draw() {
     return;
   }
   
-
-  fill(220);
   noStroke();
   for (let i = 1; i < 5; i++) {
+    fill(220,220,220,backgroundAlpha);
     rect(0, 75 * (2 * i - 1), 800, 75);
   }
-  for (let i = 0; i < notes.length; i++) {
-    notes[i].update();
-    notes[i].display();
-  }
+  // notesAppear();
 
   for (let j = 0; j < 8; j++) {
     fill(colors[j]);
@@ -289,6 +302,118 @@ function draw() {
       rect(0, 525, 800, 75);
     }
   }
+  texts1Appear();
+
+  if(millis()>111300){
+    notesAppear();
+  }
+  if (millis()>77000){
+    characterAppear();
+    texts2Appear();
+  }
+  
+  
+ 
+}
+function playSound() {
+  if (!isPlaying) {
+    osc.start();
+    isPlaying = true;
+  }
+}
+
+function mouseReleased() {
+  osc.stop();
+  isPlaying = false;
+}
+
+function keyPressed() {
+  if (key === "1") {
+    oscType = "sine";
+    osc.setType(oscType);
+  }
+  if (key === "2") {
+    oscType = "square";
+    osc.setType(oscType);
+  }
+  if (key === "3") {
+    oscType = "triangle";
+    osc.setType(oscType);
+  }
+  if (key === "4") {
+    oscType = "sawtooth";
+    osc.setType(oscType);
+  }
+}
+class Note {
+  constructor(startX, startY, length) {
+    this.x = startX;
+    this.y = startY;
+    this.length = length;
+  }
+
+  update() {
+    this.x -= 5.3;
+  }
+
+  display() {
+    push();
+    fill(0);
+    translate(this.x, this.y);
+    scale(0.8);
+    beginShape();
+    vertex(0, 0);
+    vertex(10, -10);
+    vertex(this.length, -10);
+    vertex(this.length + 10, 0);
+    vertex(this.length, 10);
+    vertex(10, 10);
+    vertex(0, 0);
+    endShape(CLOSE);
+    pop();
+  }
+}
+function characterAppear(){
+  let targetY = mouseY; 
+  speed = map(abs(targetY - ypos), 0, height, 0, 40);
+  
+  if (targetY > ypos) {
+    ypos += speed;
+  } else {
+    ypos -= speed;
+  }
+  let armsAngle = map(ypos, 0, height, PI, PI/2);
+  let legsAngle= map(ypos,height,0,0,PI/4);
+  tint(255,characterAlpha);
+  push();
+  translate(70,ypos+70);
+  rotate(legsAngle+PI/8);
+  image(legs,-5,0);
+  rotate(2*PI-2*legsAngle);
+  image(legs,5,0);
+  pop();
+  
+  push();
+  translate(70,ypos);
+  rotate(armsAngle);
+  image(arms,0,-10);
+  rotate(2*PI-armsAngle);
+  image(character,-90,-100);
+  rotate(PI-armsAngle);
+  image(arms,10,-10);
+  pop();
+
+  characterAlpha+=1;
+  backgroundAlpha-=1;
+}
+function notesAppear(){
+  for (let i = 0; i < notes.length; i++) {
+    notes[i].update();
+    notes[i].display();
+  }
+
+}
+function texts1Appear(){
   if (millis() > nextTime) {
     currentTextIndex++;
     nextTime = millis() + displayTime;
@@ -372,21 +497,11 @@ function draw() {
   if (currentTextIndex === 7) {
     mouseReleased();
   }
-
   text(texts[currentTextIndex], width / 2, height / 2);
-  
-  let targetY = mouseY; 
-  speed = map(abs(targetY - ypos), 0, height, 0, 40);
-  
-  if (targetY > ypos) {
-    ypos += speed;
-  } else {
-    ypos -= speed;
-  }
-  
-  // let armsAngle=-PI-(height-ypos)*PI/600;
+function characterAppear(){
   let armsAngle = map(ypos, 0, height, PI, PI/2);
   let legsAngle= map(ypos,height,0,0,PI/4);
+  tint(255,characterAlpha);
 
   push();
   translate(70,ypos+70);
@@ -405,67 +520,73 @@ function draw() {
   rotate(PI-armsAngle);
   image(arms,10,-10);
   pop();
- 
-}
-function playSound() {
-  if (!isPlaying) {
-    osc.start();
-    isPlaying = true;
-  }
-}
 
-function mouseReleased() {
-  osc.stop();
-  isPlaying = false;
+  backgroundAlpha-=1;
+  characterAlpha+=1;
+  if(backgroundAlpha<=0){
+    backgroundAlpha=0;
+  }
+  if(characterAlpha>=255){
+    characterAlpha=255;
+  }
 }
 
-function keyPressed() {
-  if (key === "1") {
-    oscType = "sine";
-    osc.setType(oscType);
-  }
-  if (key === "2") {
-    oscType = "square";
-    osc.setType(oscType);
-  }
-  if (key === "3") {
-    oscType = "triangle";
-    osc.setType(oscType);
-  }
-  if (key === "4") {
-    oscType = "sawtooth";
-    osc.setType(oscType);
-  }
 }
-class Note {
-  constructor(startX, startY, length) {
-    this.x = startX;
-    this.y = startY;
-    this.length = length;
+function texts2Appear(){
+  if (millis() > nextTime2) {
+    currentTextIndex2++;
+    nextTime2 = millis() + displayTime2;
   }
 
-  update() {
-    this.x -= 5.3;
-  }
+  let currentTime2 = millis() - nextTime2 + displayTime2;
 
-  display() {
-    push();
+  if (currentTime2 < fadeDuration) {
+    let alpha = map(currentTime2, 0, fadeDuration, 0, 255);
+    fill(0, alpha);
+  } else if (currentTime2 > displayTime2 - fadeDuration) {
+    let alpha = map(
+      currentTime2,
+      displayTime2 - fadeDuration,
+      displayTime2,
+      255,
+      0
+    );
+    fill(0, alpha);
+  } else {
     fill(0);
-    translate(this.x, this.y);
-    scale(0.8);
+  }
+  text(texts2[currentTextIndex2], width / 2, height / 2);
+  if(currentTextIndex2==5 || currentTextIndex2==6){
+    
+    push();
+    translate(exampleX,tracks[1]);
+    fill(0);
     beginShape();
     vertex(0, 0);
-    vertex(10, -10);
-    vertex(this.length, -10);
-    vertex(this.length + 10, 0);
-    vertex(this.length, 10);
-    vertex(10, 10);
+    vertex(8, -8);
+    vertex(700, -8);
+    vertex(708, 0);
+    vertex(700, 8);
+    vertex(8, 8);
     vertex(0, 0);
     endShape(CLOSE);
     pop();
+    exampleX-=3.6;
+  }
+  if(currentTextIndex2==6){
+    osc.freq(Eflat2);
+    playSound();
+    fill(255, 136, 77, 100);
+    rect(0, 75, 800, 75);
+  }
+  if(currentTextIndex2==7){
+    mouseReleased();
   }
 }
-
+function exampleNotedisplay(){
+  let exampleNote=new Note (width,tracks[1],150);
+  notes.push(exampleNote);
+}
 function mousePressed(){
   if (!audioPlayed) {
     mySound.play();
