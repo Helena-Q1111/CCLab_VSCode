@@ -22,7 +22,7 @@ let speed=0;
 let ypos=0;
 let texts = [
   "Welcome to the music journey!","Have you played any instruments before?",
-  "Here is a synthesizer in front of you",
+  "Here is a synthesizer keyboard\n in front of you",
   "You can play with it by \n pressing your mouse and dragging it",
   "Like this!",
   "click 1, 2, 3 or 4 on your keyboard \n to change the timbre!",
@@ -42,22 +42,30 @@ let texts2=[
 ]
 let currentTextIndex = 0;
 let currentTextIndex2=0;
-let displayTime = 4300;
+let displayTime = 4320;
 let displayTime2=3500;
 let fadeDuration = 500;
 let nextTime = 0;
 let nextTime2=0;
 let interactedOnce = false;
+let startTime;
 let pixelFont;
 let backgroundAlpha=255;
 let characterAlpha=0;
+let backgroundAlpha2=0;
+let backgroundFinal;
+let groundFinal;
+let groundX=0;
 let exampleX=800;
+let obstaclePos=800;
 
 function preload() {
   mySound = loadSound('Encounter.mp3');
   character=loadImage('character.png');
   arms=loadImage('arms.png');
   legs=loadImage('legs.png');
+  backgroundFinal=loadImage('background.png');
+  groundFinal=loadImage('ground.png')
   frontpage=loadImage('frontpage.png');
   pixelFont=loadFont('css/PixelifySans-VariableFont_wght.ttf');
 }
@@ -198,22 +206,22 @@ function setup() {
       length = 450;
     }
     if (i === 23) {
-      startX = width + 150 * i + 1500;
+      startX = width + 150 * i + 1550;
       startY = tracks[6];
       length = 100;
     }
     if (i === 24) {
-      startX = width + 150 * (i - 1) + 1600;
+      startX = width + 150 * (i - 1) + 1650;
       startY = tracks[5];
       length = 100;
     }
     if (i === 25) {
-      startX = width + 150 * (i - 2) + 1700;
+      startX = width + 150 * (i - 2) + 1750;
       startY = tracks[3];
       length = 100;
     }
     if (i === 26) {
-      startX = width + 150 * (i - 3) + 1800;
+      startX = width + 150 * (i - 3) + 1850;
       startY = tracks[4];
       length = 100;
     }
@@ -224,12 +232,15 @@ function setup() {
 function draw() {
   background(255);
 
-
+  
   if(interactedOnce == false){
     background(240);
     image(frontpage,320,200);
     text("press anywhere to start", 400, 300);
     return;
+  }
+  if (interactedOnce==true) {
+    timer = millis() - startTime;
   }
   
   noStroke();
@@ -238,7 +249,13 @@ function draw() {
     rect(0, 75 * (2 * i - 1), 800, 75);
   }
   // notesAppear();
-
+  if(timer>130000){
+    tint(255,backgroundAlpha2);
+    image(backgroundFinal,0,0);
+    image(groundFinal,groundX,0);
+    groundX-=1.2;
+    backgroundAlpha2+=1;
+  }
   for (let j = 0; j < 8; j++) {
     fill(colors[j]);
     quad(
@@ -302,12 +319,15 @@ function draw() {
       rect(0, 525, 800, 75);
     }
   }
-  texts1Appear();
-
-  if(millis()>111300){
-    notesAppear();
+  
+  if(timer>1000){
+    texts1Appear();
   }
-  if (millis()>77000){
+  if(timer>111100){
+    notesAppear();
+    obstaclesAppear();
+  }
+  if (timer>77000){
     characterAppear();
     texts2Appear();
   }
@@ -373,6 +393,7 @@ class Note {
     pop();
   }
 }
+
 function characterAppear(){
   let targetY = mouseY; 
   speed = map(abs(targetY - ypos), 0, height, 0, 40);
@@ -414,12 +435,12 @@ function notesAppear(){
 
 }
 function texts1Appear(){
-  if (millis() > nextTime) {
+  if (timer > nextTime) {
     currentTextIndex++;
-    nextTime = millis() + displayTime;
+    nextTime = timer + displayTime;
   }
 
-  let currentTime = millis() - nextTime + displayTime;
+  let currentTime = timer - nextTime + displayTime;
 
   if (currentTime < fadeDuration) {
     let alpha = map(currentTime, 0, fadeDuration, 0, 255);
@@ -437,7 +458,7 @@ function texts1Appear(){
     fill(0);
   }
   if (currentTextIndex === 4) {
-    let currentTime = millis() -4 * (displayTime + fadeDuration);
+    let currentTime = timer -4 * (displayTime + fadeDuration);
     if (currentTime <= 200) {
       osc.freq(Eflat2);
       playSound();
@@ -467,7 +488,7 @@ function texts1Appear(){
     mouseReleased();
   }
   if (currentTextIndex === 6) {
-    let currentTime = millis() - 6 * (displayTime + fadeDuration);
+    let currentTime = timer - 6 * (displayTime + fadeDuration);
     osc.setType("sawtooth");
     if (currentTime < 0) {
       osc.freq(Eflat2);
@@ -533,12 +554,12 @@ function characterAppear(){
 
 }
 function texts2Appear(){
-  if (millis() > nextTime2) {
+  if (timer > nextTime2) {
     currentTextIndex2++;
-    nextTime2 = millis() + displayTime2;
+    nextTime2 = timer + displayTime2;
   }
 
-  let currentTime2 = millis() - nextTime2 + displayTime2;
+  let currentTime2 = timer - nextTime2 + displayTime2;
 
   if (currentTime2 < fadeDuration) {
     let alpha = map(currentTime2, 0, fadeDuration, 0, 255);
@@ -587,11 +608,27 @@ function exampleNotedisplay(){
   let exampleNote=new Note (width,tracks[1],150);
   notes.push(exampleNote);
 }
+
+function obstaclesAppear(){
+  push();
+  translate(obstaclePos,300);
+  fill(0);
+  rect(300, 0, 200, 300);
+  rect(700, -300, 400, 100);
+  rect(1600, 100, 300, 200);
+  rect(2300, -50, 400, 300);
+  rect(3100, 50, 200, 200);
+  rect(3400,-300,700,150);
+  pop();
+  obstaclePos-=5.4;
+}
 function mousePressed(){
   if (!audioPlayed) {
     mySound.play();
     audioPlayed = true;
+    startTime=millis();
   }
   interactedOnce = true;
+  
 
 }
