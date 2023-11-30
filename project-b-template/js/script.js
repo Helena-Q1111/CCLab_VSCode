@@ -40,13 +40,26 @@ let texts2=[
   "Ready to start!",
   "3","2","1","go!"
 ]
+let texts3=[
+  "",
+  "Game and music",
+  "are both like going on an adventure",
+  "experiencing the world \n with your eyes and ears",
+  "and creating it on your own",
+  "Hope you enjoyed this journey",
+  "and see you next time!",
+  "images, coding and music by Helena"
+]
 let currentTextIndex = 0;
 let currentTextIndex2=0;
-let displayTime = 4320;
+let currentTextIndex3=0;
+let displayTime = 4300;
 let displayTime2=3500;
+let displayTime3=3500;
 let fadeDuration = 500;
 let nextTime = 0;
 let nextTime2=0;
+let nextTime3=0;
 let interactedOnce = false;
 let startTime;
 let pixelFont;
@@ -88,7 +101,7 @@ function setup() {
   colors.push(color(77, 148, 255));
   colors.push(color(210, 77, 255));
 
-  for (let i = 0; i < 27; i++) {
+  for (let i = 0; i < 45; i++) {
     let startX, startY, length;
     if (i === 0) {
       startX = width;
@@ -198,12 +211,12 @@ function setup() {
     if (i === 21) {
       startX = width + 150 * i + 1100;
       startY = tracks[4];
-      length = 450;
+      length = 400;
     }
     if (i === 22) {
       startX = width + 150 * i + 1300;
       startY = tracks[7];
-      length = 450;
+      length = 400;
     }
     if (i === 23) {
       startX = width + 150 * i + 1550;
@@ -225,7 +238,94 @@ function setup() {
       startY = tracks[4];
       length = 100;
     }
-
+    if (i === 27) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[7];
+      length = 150;
+    }
+    if (i === 28) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[1];
+      length = 150;
+    }
+    if (i === 29) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[2];
+      length = 150;
+    }
+    if (i === 30) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[1];
+      length = 150;
+    }
+    if (i === 31) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[4];
+      length = 150;
+    }
+    if (i === 32) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[0];
+      length = 150;
+    }
+    if (i === 33) {
+      startX = width + 150 * i + 2750;
+      startY = tracks[1];
+      length = 450;
+    }
+    if (i === 34) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[7];
+      length = 150;
+    }
+    if (i === 35) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[1];
+      length = 150;
+    }
+    if (i === 36) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[2];
+      length = 150;
+    }
+    if (i === 37) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[1];
+      length = 150;
+    }
+    if (i === 38) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[4];
+      length = 150;
+    }
+    if (i === 39) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[5];
+      length = 150;
+    }
+    if (i === 40) {
+      startX = width + 150 * i + 3050;
+      startY = tracks[4];
+      length = 600;
+    }
+    if (i === 41) {
+      startX = width + 150 * i + 3550;
+      startY = tracks[1];
+      length = 600;
+    }if (i === 42) {
+      startX = width + 150 * i + 4050;
+      startY = tracks[1];
+      length = 450;
+    }
+if (i === 43) {
+      startX = width + 150 * i + 4300;
+      startY = tracks[0];
+      length = 450;
+    }if (i === 44) {
+      startX = width + 150 * i + 4550;
+      startY = tracks[1];
+      length = 450;
+    }
     notes.push(new Note(startX, startY, length));
   }
 }
@@ -250,11 +350,16 @@ function draw() {
   }
   // notesAppear();
   if(timer>130000){
+    
+    push();
     tint(255,backgroundAlpha2);
     image(backgroundFinal,0,0);
     image(groundFinal,groundX,0);
-    groundX-=1.2;
+    pop();
+    groundX-=1;
     backgroundAlpha2+=1;
+    texts3Appear();
+    
   }
   for (let j = 0; j < 8; j++) {
     fill(colors[j]);
@@ -320,10 +425,10 @@ function draw() {
     }
   }
   
-  if(timer>1000){
+  if(timer>800){
     texts1Appear();
   }
-  if(timer>111100){
+  if(timer>110600){
     notesAppear();
     obstaclesAppear();
   }
@@ -331,7 +436,6 @@ function draw() {
     characterAppear();
     texts2Appear();
   }
-  
   
  
 }
@@ -428,6 +532,7 @@ function characterAppear(){
   backgroundAlpha-=1;
 }
 function notesAppear(){
+  // osc.setType("square");
   for (let i = 0; i < notes.length; i++) {
     notes[i].update();
     notes[i].display();
@@ -459,6 +564,7 @@ function texts1Appear(){
   }
   if (currentTextIndex === 4) {
     let currentTime = timer -4 * (displayTime + fadeDuration);
+    push();
     if (currentTime <= 200) {
       osc.freq(Eflat2);
       playSound();
@@ -483,6 +589,7 @@ function texts1Appear(){
       fill(77, 255, 77, 100);
       rect(0, 300, 800, 75);
     }
+    pop();
   }
   if (currentTextIndex === 5) {
     mouseReleased();
@@ -490,30 +597,32 @@ function texts1Appear(){
   if (currentTextIndex === 6) {
     let currentTime = timer - 6 * (displayTime + fadeDuration);
     osc.setType("sawtooth");
-    if (currentTime < 0) {
+    push();
+    if (currentTime < -300) {
       osc.freq(Eflat2);
       playSound();
       fill(255, 136, 77, 100);
       rect(0, 75, 800, 75);
     }
-    if (currentTime > 0 && currentTime < 100) {
+    if (currentTime > -300 && currentTime < -200) {
       osc.freq(D);
       playSound();
       fill(255, 255, 77, 100);
       rect(0, 150, 800, 75);
     }
-    if (currentTime > 100 && currentTime < 200) {
+    if (currentTime > -200 && currentTime < -100) {
       osc.freq(C);
       playSound();
       fill(196, 255, 77, 100);
       rect(0, 225, 800, 75);
     }
-    if (currentTime > 200) {
+    if (currentTime > -100) {
       osc.freq(Bflat);
       playSound();
       fill(77, 255, 77, 100);
       rect(0, 300, 800, 75);
     }
+    pop();
   }
   if (currentTextIndex === 7) {
     mouseReleased();
@@ -604,6 +713,32 @@ function texts2Appear(){
     mouseReleased();
   }
 }
+function texts3Appear() {
+  if (timer > nextTime3) {
+    currentTextIndex3++;
+    nextTime3 = timer + displayTime3;
+  }
+
+  let currentTime3 = timer - nextTime3 + displayTime3;
+
+  if (currentTime3 < fadeDuration) {
+    let alpha = map(currentTime3, 0, fadeDuration, 0, 255);
+    fill(0, alpha);
+  } else if (currentTime3 > displayTime3 - fadeDuration) {
+    let alpha = map(
+      currentTime3,
+      displayTime3 - fadeDuration,
+      displayTime3,
+      255,
+      0
+    );
+    fill(0, alpha);
+  } else {
+    fill(0);
+  }
+  text(texts3[currentTextIndex3], width / 2, height / 2);
+}
+
 function exampleNotedisplay(){
   let exampleNote=new Note (width,tracks[1],150);
   notes.push(exampleNote);
@@ -614,11 +749,11 @@ function obstaclesAppear(){
   translate(obstaclePos,300);
   fill(0);
   rect(300, 0, 200, 300);
-  rect(700, -300, 400, 100);
-  rect(1600, 100, 300, 200);
-  rect(2300, -50, 400, 300);
-  rect(3100, 50, 200, 200);
-  rect(3400,-300,700,150);
+  rect(700, -300, 350, 100);
+  rect(1600, 100, 250, 200);
+  rect(2300, -50, 350, 350);
+  rect(3100, 50, 150, 250);
+  rect(3400,-300,600,100);
   pop();
   obstaclePos-=5.4;
 }
