@@ -23,7 +23,7 @@ let ypos=0;
 let texts = [
   "Welcome to the music world!","Have you played any instruments before?",
   "Here is a synthesizer in front of you",
-  "You can play with it by \n pressing your mouse and moving it",
+  "You can play with it by \n pressing your mouse and dragging it",
   "Like this!",
   "click 1, 2, 3 or 4 on your keyboard \n to change the timbre!",
   "Like this!",
