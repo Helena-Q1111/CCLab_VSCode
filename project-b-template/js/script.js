@@ -18,10 +18,11 @@ let character;
 let arms;
 let legs;
 let frontpage;
-let speed=0;
-let ypos=0;
+let speed = 0;
+let ypos = 0;
 let texts = [
-  "Welcome to the music journey!","Have you played any instruments before?",
+  "Welcome to the music journey!",
+  "Have you played any instruments before?",
   "Here is a synthesizer keyboard\n in front of you",
   "You can play with it by \n pressing your mouse and dragging it",
   "Like this!",
@@ -29,7 +30,7 @@ let texts = [
   "Like this!",
   "Have fun!",
 ];
-let texts2=[
+let texts2 = [
   "",
   "Look! A character has joined your journey",
   "Does it remind you of some pixel games \n of your childhood?",
@@ -38,9 +39,12 @@ let texts2=[
   "when the note coincides \n with the colorful diamonds!",
   "Like this!",
   "Ready to start!",
-  "3","2","1","go!"
-]
-let texts3=[
+  "3",
+  "2",
+  "1",
+  "go!",
+];
+let texts3 = [
   "",
   "Game and music",
   "are both like going on an adventure",
@@ -48,42 +52,41 @@ let texts3=[
   "and creating it on your own",
   "Hope you enjoyed this journey",
   "and see you next time!",
-  "images, coding and music by Helena"
-]
+  "images, coding and music by Helena",
+];
 let currentTextIndex = 0;
-let currentTextIndex2=0;
-let currentTextIndex3=0;
+let currentTextIndex2 = 0;
+let currentTextIndex3 = 0;
 let displayTime = 4300;
-let displayTime2=3500;
-let displayTime3=3500;
+let displayTime2 = 3500;
+let displayTime3 = 3500;
 let fadeDuration = 500;
 let nextTime = 0;
-let nextTime2=0;
-let nextTime3=0;
+let nextTime2 = 0;
+let nextTime3 = 0;
 let interactedOnce = false;
 let startTime;
 let pixelFont;
-let backgroundAlpha=255;
-let characterAlpha=0;
-let backgroundAlpha2=0;
+let backgroundAlpha = 255;
+let characterAlpha = 0;
+let backgroundAlpha2 = 0;
+let alphaExample = 255;
 let backgroundFinal;
 let groundFinal;
-let groundX=0;
-let exampleX=800;
-let obstaclePos=800;
+let groundX = 0;
+let exampleX = 800;
+let obstaclePos = 800;
 
 function preload() {
-  mySound = loadSound('Encounter.mp3');
-  character=loadImage('character.png');
-  arms=loadImage('arms.png');
-  legs=loadImage('legs.png');
-  backgroundFinal=loadImage('background.png');
-  groundFinal=loadImage('ground.png')
-  frontpage=loadImage('frontpage.png');
-  pixelFont=loadFont('css/PixelifySans-VariableFont_wght.ttf');
+  mySound = loadSound("Encounter.mp3");
+  character = loadImage("character.png");
+  arms = loadImage("arms.png");
+  legs = loadImage("legs.png");
+  backgroundFinal = loadImage("background.png");
+  groundFinal = loadImage("ground.png");
+  frontpage = loadImage("frontpage.png");
+  pixelFont = loadFont("css/PixelifySans-VariableFont_wght.ttf");
 }
-
-
 
 function setup() {
   createCanvas(800, 600);
@@ -312,16 +315,18 @@ function setup() {
       startX = width + 150 * i + 3550;
       startY = tracks[1];
       length = 600;
-    }if (i === 42) {
+    }
+    if (i === 42) {
       startX = width + 150 * i + 4050;
       startY = tracks[1];
       length = 450;
     }
-if (i === 43) {
+    if (i === 43) {
       startX = width + 150 * i + 4300;
       startY = tracks[0];
       length = 450;
-    }if (i === 44) {
+    }
+    if (i === 44) {
       startX = width + 150 * i + 4550;
       startY = tracks[1];
       length = 450;
@@ -332,34 +337,31 @@ if (i === 43) {
 function draw() {
   background(255);
 
-  
-  if(interactedOnce == false){
+  if (interactedOnce == false) {
     background(240);
-    image(frontpage,320,200);
+    image(frontpage, 320, 200);
     text("press anywhere to start", 400, 300);
     return;
   }
-  if (interactedOnce==true) {
+  if (interactedOnce == true) {
     timer = millis() - startTime;
   }
-  
+
   noStroke();
   for (let i = 1; i < 5; i++) {
-    fill(220,220,220,backgroundAlpha);
+    fill(220, 220, 220, backgroundAlpha);
     rect(0, 75 * (2 * i - 1), 800, 75);
   }
   // notesAppear();
-  if(timer>130000){
-    
+  if (timer > 130000) {
     push();
-    tint(255,backgroundAlpha2);
-    image(backgroundFinal,0,0);
-    image(groundFinal,groundX,0);
+    tint(255, backgroundAlpha2);
+    image(backgroundFinal, 0, 0);
+    image(groundFinal, groundX, 0);
     pop();
-    groundX-=1;
-    backgroundAlpha2+=1;
+    groundX -= 1;
+    backgroundAlpha2 += 1;
     texts3Appear();
-    
   }
   for (let j = 0; j < 8; j++) {
     fill(colors[j]);
@@ -424,20 +426,30 @@ function draw() {
       rect(0, 525, 800, 75);
     }
   }
-  
-  if(timer>800){
+
+  if (timer > 800) {
     texts1Appear();
   }
-  if(timer>110600){
+  if (timer > 34000) {
+    push();
+    textSize(18);
+    fill(0, 0, 0, alphaExample);
+    text(
+      "(Now please improvise melody on your own \n and wait for the next part!)",
+      width / 2,
+      height / 12
+    );
+    pop();
+  }
+  if (timer > 110700) {
     notesAppear();
     obstaclesAppear();
   }
-  if (timer>77000){
+  if (timer > 77000) {
     characterAppear();
     texts2Appear();
+    alphaExample -= 2;
   }
-  
- 
 }
 function playSound() {
   if (!isPlaying) {
@@ -455,18 +467,22 @@ function keyPressed() {
   if (key === "1") {
     oscType = "sine";
     osc.setType(oscType);
+    osc.amp(0.4);
   }
   if (key === "2") {
     oscType = "square";
     osc.setType(oscType);
+    osc.amp(0.3);
   }
   if (key === "3") {
     oscType = "triangle";
     osc.setType(oscType);
+    osc.amp(0.4);
   }
   if (key === "4") {
     oscType = "sawtooth";
     osc.setType(oscType);
+    osc.amp(0.3);
   }
 }
 class Note {
@@ -498,48 +514,53 @@ class Note {
   }
 }
 
-function characterAppear(){
-  let targetY = mouseY; 
+function characterAppear() {
+  let targetY = mouseY;
   speed = map(abs(targetY - ypos), 0, height, 0, 40);
-  
+
   if (targetY > ypos) {
     ypos += speed;
   } else {
     ypos -= speed;
   }
-  let armsAngle = map(ypos, 0, height, PI, PI/2);
-  let legsAngle= map(ypos,height,0,0,PI/4);
-  tint(255,characterAlpha);
+  let armsAngle = map(ypos, 0, height, PI, PI / 2);
+  let legsAngle = map(ypos, height, 0, 0, PI / 4);
+  tint(255, characterAlpha);
   push();
-  translate(70,ypos+70);
-  rotate(legsAngle+PI/8);
-  image(legs,-5,0);
-  rotate(2*PI-2*legsAngle);
-  image(legs,5,0);
-  pop();
-  
-  push();
-  translate(70,ypos);
-  rotate(armsAngle);
-  image(arms,0,-10);
-  rotate(2*PI-armsAngle);
-  image(character,-90,-100);
-  rotate(PI-armsAngle);
-  image(arms,10,-10);
+  translate(70, ypos + 70);
+  rotate(legsAngle + PI / 8);
+  image(legs, -5, 0);
+  rotate(2 * PI - 2 * legsAngle);
+  image(legs, 5, 0);
   pop();
 
-  characterAlpha+=1;
-  backgroundAlpha-=1;
+  push();
+  translate(70, ypos);
+  rotate(armsAngle);
+  image(arms, 0, -10);
+  rotate(2 * PI - armsAngle);
+  image(character, -90, -100);
+  rotate(PI - armsAngle);
+  image(arms, 10, -10);
+  pop();
+
+  characterAlpha += 1;
+  backgroundAlpha -= 1;
+  if (backgroundAlpha <= 0) {
+    backgroundAlpha = 0;
+  }
+  if (characterAlpha >= 255) {
+    characterAlpha = 255;
+  }
 }
-function notesAppear(){
+function notesAppear() {
   // osc.setType("square");
   for (let i = 0; i < notes.length; i++) {
     notes[i].update();
     notes[i].display();
   }
-
 }
-function texts1Appear(){
+function texts1Appear() {
   if (timer > nextTime) {
     currentTextIndex++;
     nextTime = timer + displayTime;
@@ -563,8 +584,9 @@ function texts1Appear(){
     fill(0);
   }
   if (currentTextIndex === 4) {
-    let currentTime = timer -4 * (displayTime + fadeDuration);
+    let currentTime = timer - 4 * (displayTime + fadeDuration);
     push();
+    osc.amp(0.4);
     if (currentTime <= 200) {
       osc.freq(Eflat2);
       playSound();
@@ -598,6 +620,7 @@ function texts1Appear(){
     let currentTime = timer - 6 * (displayTime + fadeDuration);
     osc.setType("sawtooth");
     push();
+    osc.amp(0.3);
     if (currentTime < -300) {
       osc.freq(Eflat2);
       playSound();
@@ -628,41 +651,8 @@ function texts1Appear(){
     mouseReleased();
   }
   text(texts[currentTextIndex], width / 2, height / 2);
-function characterAppear(){
-  let armsAngle = map(ypos, 0, height, PI, PI/2);
-  let legsAngle= map(ypos,height,0,0,PI/4);
-  tint(255,characterAlpha);
-
-  push();
-  translate(70,ypos+70);
-  rotate(legsAngle+PI/8);
-  image(legs,-5,0);
-  rotate(2*PI-2*legsAngle);
-  image(legs,5,0);
-  pop();
-  
-  push();
-  translate(70,ypos);
-  rotate(armsAngle);
-  image(arms,0,-10);
-  rotate(2*PI-armsAngle);
-  image(character,-90,-100);
-  rotate(PI-armsAngle);
-  image(arms,10,-10);
-  pop();
-
-  backgroundAlpha-=1;
-  characterAlpha+=1;
-  if(backgroundAlpha<=0){
-    backgroundAlpha=0;
-  }
-  if(characterAlpha>=255){
-    characterAlpha=255;
-  }
 }
-
-}
-function texts2Appear(){
+function texts2Appear() {
   if (timer > nextTime2) {
     currentTextIndex2++;
     nextTime2 = timer + displayTime2;
@@ -686,10 +676,9 @@ function texts2Appear(){
     fill(0);
   }
   text(texts2[currentTextIndex2], width / 2, height / 2);
-  if(currentTextIndex2==5 || currentTextIndex2==6){
-    
+  if (currentTextIndex2 == 5 || currentTextIndex2 == 6) {
     push();
-    translate(exampleX,tracks[1]);
+    translate(exampleX, tracks[1]);
     fill(0);
     beginShape();
     vertex(0, 0);
@@ -701,15 +690,15 @@ function texts2Appear(){
     vertex(0, 0);
     endShape(CLOSE);
     pop();
-    exampleX-=3.6;
+    exampleX -= 3.6;
   }
-  if(currentTextIndex2==6){
+  if (currentTextIndex2 == 6) {
     osc.freq(Eflat2);
     playSound();
     fill(255, 136, 77, 100);
     rect(0, 75, 800, 75);
   }
-  if(currentTextIndex2==7){
+  if (currentTextIndex2 == 7) {
     mouseReleased();
   }
 }
@@ -739,31 +728,29 @@ function texts3Appear() {
   text(texts3[currentTextIndex3], width / 2, height / 2);
 }
 
-function exampleNotedisplay(){
-  let exampleNote=new Note (width,tracks[1],150);
+function exampleNotedisplay() {
+  let exampleNote = new Note(width, tracks[1], 150);
   notes.push(exampleNote);
 }
 
-function obstaclesAppear(){
+function obstaclesAppear() {
   push();
-  translate(obstaclePos,300);
-  fill(0);
+  translate(obstaclePos, 300);
+  fill(100);
   rect(300, 0, 200, 300);
   rect(700, -300, 350, 100);
   rect(1600, 100, 250, 200);
   rect(2300, -50, 350, 350);
   rect(3100, 50, 150, 250);
-  rect(3400,-300,600,100);
+  rect(3400, -300, 600, 100);
   pop();
-  obstaclePos-=5.4;
+  obstaclePos -= 5.4;
 }
-function mousePressed(){
+function mousePressed() {
   if (!audioPlayed) {
     mySound.play();
     audioPlayed = true;
-    startTime=millis();
+    startTime = millis();
   }
   interactedOnce = true;
-  
-
 }
