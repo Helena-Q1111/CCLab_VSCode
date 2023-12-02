@@ -736,7 +736,7 @@ function exampleNotedisplay() {
 function obstaclesAppear() {
   push();
   translate(obstaclePos, 300);
-  fill(100);
+  fill(170);
   rect(300, 0, 200, 300);
   rect(700, -300, 350, 100);
   rect(1600, 100, 250, 200);
