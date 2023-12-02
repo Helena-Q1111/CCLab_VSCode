@@ -24,21 +24,24 @@ p {
 p{
   font-size:50px;
 }
+.small{
+  font-size:20px;
+}
 .red{
   font-size: 30px;
-  color:rgb(235, 77, 77)
+  color:rgb(192, 63, 63)
 }
 .yellow{
   font-size: 20px;
-  color:rgb(255, 243, 80)
+  color:rgb(209, 199, 59)
 }
 .green{
   font-size: 20px;
-  color:rgb(102,255,153)
+  color:rgb(60, 186, 102)
 }
 .blue{
   font-size:30px;
-  color:rgb(0,204,255)
+  color:rgb(64, 179, 207)
 }
 #canvasContainer {
   display: block;
