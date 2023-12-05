@@ -46,3 +46,12 @@ p{
 #canvasContainer {
   display: block;
 }
+.container {
+  display: flex;
+  
+}
+
+.left-column, .right-column {
+  flex: 1; 
+  flex-direction: column; 
+}
