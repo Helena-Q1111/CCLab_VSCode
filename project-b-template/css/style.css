@@ -23,9 +23,11 @@ p {
 }
 p{
   font-size:50px;
+  line-height: 0.75;
 }
 .small{
   font-size:20px;
+  
 }
 .red{
   font-size: 30px;
@@ -54,4 +56,12 @@ p{
 .left-column, .right-column {
   flex: 1; 
   flex-direction: column; 
+}
+.right-content {
+  display: flex;
+  flex-direction: column;
+}
+#myCanvas {
+  width: 10%;
+  height: auto;
 }
